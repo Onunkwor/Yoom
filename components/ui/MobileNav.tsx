@@ -14,7 +14,7 @@ import { usePathname } from "next/navigation";
 const MobileNav = () => {
   const pathname = usePathname();
   return (
-    <section className="w-full max-w-[264px]">
+    <section className="w-full max-w-[264px] sm:hidden">
       <Sheet>
         <SheetTrigger asChild>
           <Image
@@ -25,7 +25,7 @@ const MobileNav = () => {
             className="cursor-pointer "
           />
         </SheetTrigger>
-        <SheetContent side="left" className="border-none bg-dark-1">
+        <SheetContent side="left" className="border-none bg-dark-1 max-w-72">
           <Link href="/" className="flex items-center gap-1">
             <Image
               src="/icons/logo.svg"
@@ -42,7 +42,8 @@ const MobileNav = () => {
               <section className="h-full flex flex-col gap-6 pt-16 text-white">
                 {sidebarLinks.map((link) => {
                   const isActive =
-                    link.route === pathname || pathname.startsWith(link.route);
+                    pathname === link.route ||
+                    pathname.startsWith(`${link.route}/`);
                   return (
                     <SheetClose key={link.route} asChild>
                       <Link
