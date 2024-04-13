@@ -1,3 +1,4 @@
+import MeetingTypeList from "@/components/ui/MeetingTypeList";
 import { formatDate, formatTimeWithAMPM } from "@/lib/utils";
 import React from "react";
 
@@ -20,6 +21,8 @@ const Home = () => {
           </div>
         </div>
       </div>
+
+      <MeetingTypeList />
     </section>
   );
 };
