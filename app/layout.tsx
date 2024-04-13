@@ -4,11 +4,15 @@ import { Inter } from "next/font/google";
 import { Toaster } from "sonner";
 import "./globals.css";
 import "@stream-io/video-react-sdk/dist/css/styles.css";
+import "react-datepicker/dist/react-datepicker.css";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: "Yoom",
-  description: "Video Conferencing app",
+  title: "YOOM",
+  description: "Video Calling app",
+  icons: {
+    icon: "/icons/logo.svg",
+  },
 };
 
 export default function RootLayout({
@@ -33,6 +37,14 @@ export default function RootLayout({
       }}
     >
       <html lang="en">
+        <head>
+          <link
+            rel="icon"
+            href="/icons/logo.svg"
+            type="image/<generated>"
+            sizes="100px"
+          />
+        </head>
         <body className={`${inter.className} bg-dark-2`}>
           <Toaster richColors />
           {children}
