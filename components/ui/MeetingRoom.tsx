@@ -22,6 +22,8 @@ import { Button } from "./button";
 import { useRouter, useSearchParams } from "next/navigation";
 import EndCallButton from "./EndCallButton";
 import Loader from "./Loader";
+import Link from "next/link";
+import Image from "next/image";
 
 type CallLayoutType = "grid" | "speaker-left" | "speaker-right";
 const MeetingRoom = () => {
@@ -44,10 +46,32 @@ const MeetingRoom = () => {
   const { useCallCallingState } = useCallStateHooks();
   const callingState = useCallCallingState();
   const call = useCall();
+
   if (callingState === CallingState.JOINING) {
     return (
       <div className="w-full">
         <Loader />
+      </div>
+    );
+  }
+  const currentTime = new Date();
+  const endedTime = call?.state?.endedAt;
+  const endedDate = new Date(endedTime!);
+  if (currentTime > endedDate) {
+    return (
+      <div className="text-white relative">
+        <Link href="/" className="absolute left-8 top-8 flex gap-2">
+          <Image
+            src="/icons/backArrow.svg"
+            width={15}
+            height={15}
+            alt="arrow"
+          />{" "}
+          Back to home
+        </Link>
+        <div className=" flex justify-center items-center h-screen gap-3 !overflow-hidden">
+          <p className="text-2xl font-bold">The meeting has ended</p>
+        </div>
       </div>
     );
   }
