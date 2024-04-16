@@ -53,15 +53,6 @@ const MeetingRoom = () => {
       </div>
     );
   }
-  const currentTime = new Date();
-  const endedTime = call?.state?.endedAt;
-  const endedDate = new Date(endedTime!);
-  const handleRedirect = () => {
-    router.push("/");
-    setTimeout(() => {
-      window.location.reload();
-    }, 2000);
-  };
 
   return (
     <section className="relative h-screen overflow-hidden pt-4 text-white">

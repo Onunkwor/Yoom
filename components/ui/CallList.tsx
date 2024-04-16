@@ -14,7 +14,7 @@ const CallList = ({ type }: CallListProps) => {
   const router = useRouter();
   const { endedCalls, upcomingCalls, callRecordings, isLoading } =
     useGetCalls();
-  console.log(callRecordings);
+  // console.log(callRecordings);
 
   const [recordings, setRecordings] = useState<CallRecording[]>([]);
   const getCalls = () => {

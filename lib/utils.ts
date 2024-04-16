@@ -5,7 +5,7 @@ export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
 }
 
-export function formatDate(date: number) {
+export function formatDate(date: number | Date) {
   const daysOfWeek = [
     "Sunday",
     "Monday",
@@ -39,7 +39,7 @@ export function formatDate(date: number) {
   return `${dayOfWeek}, ${month} ${dayOfMonth} ${year}`;
 }
 
-export function formatTimeWithAMPM(date: number) {
+export function formatTimeWithAMPM(date: number | Date) {
   const currentDate = new Date(date);
   let hours = currentDate.getHours();
   const minutes = currentDate.getMinutes().toString().padStart(2, "0"); // Get minutes and pad with leading zero if necessary
