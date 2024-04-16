@@ -7,7 +7,7 @@ import { useGetCallById } from "@/hooks/useGetCallById";
 import { useUser } from "@clerk/nextjs";
 import { StreamCall, StreamTheme } from "@stream-io/video-react-sdk";
 import Image from "next/image";
-import { useRouter } from "next/router";
+import { useRouter } from "next/navigation";
 import React, { useState } from "react";
 
 const Meeting = ({ params }: { params: { id: string } }) => {
@@ -21,7 +21,9 @@ const Meeting = ({ params }: { params: { id: string } }) => {
   const endedDate = new Date(endedTime!);
   const handleRedirect = () => {
     router.push("/");
-    router.reload();
+    setTimeout(() => {
+      window.location.reload();
+    }, 1600);
   };
   if (currentTime > endedDate) {
     return (
