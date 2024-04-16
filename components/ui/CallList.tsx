@@ -47,7 +47,6 @@ const CallList = ({ type }: CallListProps) => {
         const callData = await Promise.all(
           callRecordings.map((record) => record.queryRecordings())
         );
-        // console.log(callData);
 
         const recordings = callData
           .filter((call) => call.recordings.length > 0)

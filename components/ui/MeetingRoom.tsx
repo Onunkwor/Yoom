@@ -22,7 +22,6 @@ import { Button } from "./button";
 import { useRouter, useSearchParams } from "next/navigation";
 import EndCallButton from "./EndCallButton";
 import Loader from "./Loader";
-import Link from "next/link";
 import Image from "next/image";
 
 type CallLayoutType = "grid" | "speaker-left" | "speaker-right";
@@ -64,27 +63,6 @@ const MeetingRoom = () => {
       window.location.reload();
     }, 2000);
   };
-  if (currentTime > endedDate) {
-    return (
-      <div className="text-white relative">
-        <Button
-          className="absolute left-8 top-8 flex gap-2"
-          onClick={handleRedirect}
-        >
-          <Image
-            src="/icons/backArrow.svg"
-            width={15}
-            height={15}
-            alt="arrow"
-          />{" "}
-          Back to home
-        </Button>
-        <div className=" flex justify-center items-center h-screen gap-3 !overflow-hidden">
-          <p className="text-2xl font-bold">The meeting has ended</p>
-        </div>
-      </div>
-    );
-  }
 
   return (
     <section className="relative h-screen overflow-hidden pt-4 text-white">
