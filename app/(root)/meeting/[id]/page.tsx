@@ -21,9 +21,6 @@ const Meeting = ({ params }: { params: { id: string } }) => {
   const endedDate = new Date(endedTime!);
   const handleRedirect = () => {
     router.push("/");
-    setTimeout(() => {
-      window.location.reload();
-    }, 1600);
   };
   if (currentTime > endedDate) {
     return (
