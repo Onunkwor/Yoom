@@ -17,7 +17,7 @@ import {
   useCallStateHooks,
 } from "@stream-io/video-react-sdk";
 import { LayoutList, Users } from "lucide-react";
-import React, { useState } from "react";
+import { useState } from "react";
 import { Button } from "./button";
 import { useRouter, useSearchParams } from "next/navigation";
 import EndCallButton from "./EndCallButton";
@@ -28,6 +28,8 @@ import Image from "next/image";
 type CallLayoutType = "grid" | "speaker-left" | "speaker-right";
 const MeetingRoom = () => {
   const router = useRouter();
+  const call = useCall();
+
   const searchParams = useSearchParams();
   const isPersonalRoom = !!searchParams.get("personal");
   const [layout, setLayout] = useState<CallLayoutType>("speaker-left");
@@ -45,7 +47,6 @@ const MeetingRoom = () => {
   };
   const { useCallCallingState } = useCallStateHooks();
   const callingState = useCallCallingState();
-  const call = useCall();
 
   if (callingState === CallingState.JOINING) {
     return (
@@ -57,10 +58,19 @@ const MeetingRoom = () => {
   const currentTime = new Date();
   const endedTime = call?.state?.endedAt;
   const endedDate = new Date(endedTime!);
+  const handleRedirect = () => {
+    router.push("/");
+    setTimeout(() => {
+      window.location.reload();
+    }, 2000);
+  };
   if (currentTime > endedDate) {
     return (
       <div className="text-white relative">
-        <Link href="/" className="absolute left-8 top-8 flex gap-2">
+        <Button
+          className="absolute left-8 top-8 flex gap-2"
+          onClick={handleRedirect}
+        >
           <Image
             src="/icons/backArrow.svg"
             width={15}
@@ -68,13 +78,14 @@ const MeetingRoom = () => {
             alt="arrow"
           />{" "}
           Back to home
-        </Link>
+        </Button>
         <div className=" flex justify-center items-center h-screen gap-3 !overflow-hidden">
           <p className="text-2xl font-bold">The meeting has ended</p>
         </div>
       </div>
     );
   }
+
   return (
     <section className="relative h-screen overflow-hidden pt-4 text-white">
       <div className="relative flex size-full items-center justify-center">
