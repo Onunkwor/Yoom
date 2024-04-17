@@ -29,6 +29,8 @@ const MeetingRoom = () => {
   const call = useCall();
   const { useCallCallingState } = useCallStateHooks();
   const callingState = useCallCallingState();
+  const [isSmallScreen, setIsSmallScreen] = useState(false);
+  const [layout, setLayout] = useState<CallLayoutType>("grid");
 
   useEffect(() => {
     if (callingState === CallingState.LEFT) {
@@ -36,9 +38,21 @@ const MeetingRoom = () => {
     }
   }, [callingState, router]);
 
+  useEffect(() => {
+    const handleResize = () => {
+      setIsSmallScreen(window.innerWidth < 640);
+    };
+
+    handleResize();
+    window.addEventListener("resize", handleResize); // Listen for resize events
+
+    return () => {
+      window.removeEventListener("resize", handleResize); // Cleanup event listener
+    };
+  }, []);
+
   const searchParams = useSearchParams();
   const isPersonalRoom = !!searchParams.get("personal");
-  const [layout, setLayout] = useState<CallLayoutType>("speaker-left");
   const [showParticipants, setShowParticipants] = useState(false);
   const CallLayout = () => {
     switch (layout) {
@@ -96,6 +110,11 @@ const MeetingRoom = () => {
                   onClick={() =>
                     setLayout(item.toLowerCase() as CallLayoutType)
                   }
+                  style={{
+                    opacity: isSmallScreen && item !== "Grid" ? 0.5 : 1,
+                    pointerEvents:
+                      isSmallScreen && item !== "Grid" ? "none" : "auto",
+                  }}
                 >
                   {item}
                 </DropdownMenuItem>
