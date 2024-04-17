@@ -14,7 +14,7 @@ const Home = () => {
   const calls = upcomingCalls.map((call: Call) => {
     return { time: call.state.startsAt, id: call.id };
   });
-  // console.log(upcomingCalls);
+  console.log(upcomingCalls);
 
   // const earliestCall = calls.reduce((earliest, current) => {
   //   const earliestTime = new Date(earliest!);

@@ -45,6 +45,8 @@ const MeetingRoom = () => {
   };
   const { useCallCallingState } = useCallStateHooks();
   const callingState = useCallCallingState();
+  console.log(CallingState);
+  console.log(callingState);
 
   if (callingState === CallingState.JOINING) {
     return (
