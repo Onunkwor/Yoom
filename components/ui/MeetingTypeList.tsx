@@ -39,19 +39,31 @@ const MeetingTypeList = () => {
         values.dateTime.toISOString() || new Date(Date.now()).toISOString();
 
       const description = values.description || "Instant Meeting";
-      await call.getOrCreate({
-        data: {
-          starts_at: startsAt,
-          custom: {
-            description: description,
-          },
-        },
+      const callPromise = new Promise((resolve, reject) => {
+        call
+          .getOrCreate({
+            data: {
+              starts_at: startsAt,
+              custom: {
+                description: description,
+              },
+            },
+          })
+          .then((response) => {
+            resolve(response);
+          });
       });
       setCallDetails(call);
       if (!values.description) {
         router.push(`/meeting/${call.id}`);
       }
-      toast.success("Meeting created successfully");
+      toast.promise(callPromise, {
+        loading: "Loading...",
+        success: (data) => {
+          return "Meeting has been created ";
+        },
+        error: "Error creating meeting",
+      });
     } catch (error) {
       console.log("Error creating meeting", error);
       toast.error("Error creating meeting");

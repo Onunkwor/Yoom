@@ -4,7 +4,7 @@ import MeetingTypeList from "@/components/ui/MeetingTypeList";
 import useGetCalls from "@/hooks/useGetCalls";
 import { formatDate, formatTimeWithAMPM } from "@/lib/utils";
 import { Call } from "@stream-io/video-react-sdk";
-import React from "react";
+import React, { useEffect } from "react";
 
 const Home = () => {
   const { upcomingCalls, isLoading } = useGetCalls();
@@ -12,19 +12,23 @@ const Home = () => {
     return <Loader />;
   }
   const calls = upcomingCalls.map((call: Call) => {
-    return { time: call.state.startsAt, id: call.id };
+    return {
+      time: call.state.startsAt,
+      id: call.id,
+      endTime: call.state.endedAt,
+    };
   });
-  console.log(upcomingCalls);
 
-  // const earliestCall = calls.reduce((earliest, current) => {
-  //   const earliestTime = new Date(earliest!);
-  //   const currentTime = new Date(current.time!);
+  // console.log(upcomingCalls);
 
-  //   return earliestTime < currentTime ? earliest : current;
-  // }, calls[0].time);
-  const earliestCall = Date.now();
+  const earliestCall = calls.reduce((earliest, current) => {
+    const earliestTime = new Date(earliest.time!);
+    const currentTime = new Date(current.time!);
 
-  const firstUpcomingTime = new Date(earliestCall);
+    return earliestTime < currentTime ? earliest : current;
+  }, calls[0]);
+
+  const firstUpcomingTime = new Date(earliestCall?.time || Date.now());
 
   return (
     <section className="flex size-full flex-col gap-10 text-white">

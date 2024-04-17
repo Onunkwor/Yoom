@@ -22,6 +22,7 @@ import { Button } from "./button";
 import { useRouter, useSearchParams } from "next/navigation";
 import EndCallButton from "./EndCallButton";
 import Loader from "./Loader";
+import { toast } from "sonner";
 
 type CallLayoutType = "grid" | "speaker-left" | "speaker-right";
 const MeetingRoom = () => {
@@ -92,8 +93,7 @@ const MeetingRoom = () => {
         <CallControls
           onLeave={() => {
             router.push("/");
-            call?.camera.disable();
-            call?.microphone.disable;
+            toast.info("Leaving meeting");
           }}
         />
         <DropdownMenu>

@@ -3,6 +3,7 @@ import { useCall, useCallStateHooks } from "@stream-io/video-react-sdk";
 import React from "react";
 import { Button } from "./button";
 import { useRouter } from "next/navigation";
+import { toast } from "sonner";
 
 const EndCallButton = () => {
   const call = useCall();
@@ -18,7 +19,18 @@ const EndCallButton = () => {
   return (
     <Button
       onClick={async () => {
-        await call.endCall();
+        const promise = new Promise((resolve, reject) =>
+          call.endCall().then((response) => {
+            resolve(response);
+          })
+        );
+        toast.promise(promise, {
+          loading: "Loading...",
+          success: (data) => {
+            return "Meeting has ended";
+          },
+          error: "Error ending meeting",
+        });
         router.push("/");
       }}
       className="bg-red-500"
