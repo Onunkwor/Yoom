@@ -17,7 +17,7 @@ import {
   useCallStateHooks,
 } from "@stream-io/video-react-sdk";
 import { LayoutList, Users } from "lucide-react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Button } from "./button";
 import { useRouter, useSearchParams } from "next/navigation";
 import EndCallButton from "./EndCallButton";
@@ -27,6 +27,14 @@ type CallLayoutType = "grid" | "speaker-left" | "speaker-right";
 const MeetingRoom = () => {
   const router = useRouter();
   const call = useCall();
+  const { useCallCallingState } = useCallStateHooks();
+  const callingState = useCallCallingState();
+
+  useEffect(() => {
+    if (callingState === CallingState.LEFT) {
+      router.push("/");
+    }
+  }, [callingState, router]);
 
   const searchParams = useSearchParams();
   const isPersonalRoom = !!searchParams.get("personal");
@@ -43,10 +51,6 @@ const MeetingRoom = () => {
         break;
     }
   };
-  const { useCallCallingState } = useCallStateHooks();
-  const callingState = useCallCallingState();
-  console.log(CallingState);
-  console.log(callingState);
 
   if (callingState === CallingState.JOINING) {
     return (
